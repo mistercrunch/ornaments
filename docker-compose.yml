@@ -1,0 +1,23 @@
+services:
+  ornament-customizer:
+    build: .
+    container_name: ornament-customizer
+    ports:
+      - "${PORT:-5174}:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: rebuild
+          path: package.json
